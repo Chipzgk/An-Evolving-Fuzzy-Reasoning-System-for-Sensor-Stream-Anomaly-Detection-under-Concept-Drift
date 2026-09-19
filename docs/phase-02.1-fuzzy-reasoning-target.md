@@ -15,14 +15,14 @@ Phase 2.1 đóng vai trò là cột mốc kiến trúc nền tảng của hệ s
 Thiết kế kiến trúc luồng:
 $$\mathbf{x} = [x_1, x_2, x_3, x_4, x_5]^T \xrightarrow{\quad\text{Mamdani FIS}\quad} A(\mathbf{x}) \in [0, 1] \xrightarrow{\quad\text{Ngưỡng }\tau\quad} \hat{y} \in \{0, 1\}$$
 
-hoàn toàn tương thích và là sự lựa chọn tối ưu cho đề tài **"An Evolving Fuzzy Reasoning System for Sensor Stream Anomaly Detection under Concept Drift"** vì các lý do cốt lõi sau:
+hoàn toàn tương thích với mục tiêu của đề tài và là lựa chọn phù hợp cho Static Fuzzy Baseline **"An Evolving Fuzzy Reasoning System for Sensor Stream Anomaly Detection under Concept Drift"** vì các lý do cốt lõi sau:
 
 1. **Phù hợp với đặc thù dữ liệu cảm biến công nghiệp:**
-   Dữ liệu cảm biến vật lý (nhiệt độ, tốc độ, mô-men, độ mòn) biến thiên liên tục trong không gian thực. Các trạng thái thoái hóa máy móc (degradation) không diễn ra tức thời từ "tốt" sang "hỏng" mà là quá trình tiệm tiến. Một chỉ số liên tục $A(x) \in [0, 1]$ phản ánh chính xác quá trình suy hao này.
+   Dữ liệu cảm biến vật lý (nhiệt độ, tốc độ, mô-men, độ mòn) biến thiên liên tục trong không gian thực. Các trạng thái thoái hóa máy móc (degradation) không diễn ra tức thời từ "tốt" sang "hỏng" mà là quá trình tiệm tiến. Một chỉ số liên tục $A(x) \in [0, 1]$ cho phép biểu diễn mức độ bất thường theo nhiều mức thay vì chỉ sử dụng quyết định nhị phân.
 2. **Khả năng giải thích (Interpretability & Explainability) vượt trội:**
    Hệ Mamdani sử dụng các tập mờ ngôn ngữ ở cả phần tiền đề (antecedent) lẫn phần hệ quả (consequent). Khi phát hiện bất thường, hệ thống có thể xuất ra chính xác tập luật nào đang kích hoạt (firing strength $\alpha_k$) và đóng góp bao nhiêu vào chỉ số bất thường, đáp ứng trọn vẹn tiêu chí của một "Hệ thống thông minh" (Intelligent System).
 3. **Bản lề vững chắc cho Evolving & Concept Drift (Phase 3, 4, 5):**
-   Trong môi trường dữ liệu luồng (stream), sự dịch chuyển phân bố (drift) thường biểu hiện trước tiên qua sự biến động của phân bố Anomaly Score trước khi lỗi thực sự xảy ra. Việc sở hữu giá trị Anomaly Score liên tục cho phép áp dụng các thuật toán dò tìm drift (như ADWIN, Page-Hinkley, CUSUM) lên luồng điểm số hoặc luồng lỗi dự đoán một cách hiệu quả.
+   Anomaly Score liên tục cung cấp một tín hiệu có thể được sử dụng để theo dõi sự thay đổi của hành vi hệ thống trong stream. Ở các phase sau, khả năng sử dụng tín hiệu này cho drift detection sẽ được kiểm chứng thực nghiệm.
 
 ---
 
@@ -69,7 +69,7 @@ Một máy móc có thể vận hành trong vùng rủi ro rất cao (Torque qu�
    - Mẫu $A$: $\text{Torque} = \text{HIGH}, \text{ToolWear} = \text{HIGH} \implies A(\mathbf{x}) = 0.68$ (Mức cảnh báo chú ý - Warning).
    - Mẫu $B$: $\text{Torque} = \text{VERY HIGH}, \text{ToolWear} = \text{VERY HIGH}, \text{Temp} = \text{HIGH} \implies A(\mathbf{x}) = 0.94$ (Mức nguy cấp - Critical Emergency).
    Nếu hệ mờ trả thẳng 0 hoặc 1, cả hai trường hợp đều chỉ là `1 (Anomaly)`, đánh mất toàn bộ thông tin về mức độ nghiêm trọng.
-2. **Hỗ trợ giao diện giám sát công nghiệp (SCADA / Dashboard Demo):**
+2. **Hỗ trợ giao diện Smart Factory Monitoring / Dashboard Demo.:**
    - Hiển thị trực quan thanh trạng thái (Gauge/Progress bar) từ xanh lá ($0.0 - 0.3$) sang vàng ($0.3 - 0.7$) và đỏ ($0.7 - 1.0$).
 3. **Phục vụ giải thích chi tiết (Explainable AI - XAI):**
    - Cho phép phân rã:
@@ -191,7 +191,7 @@ Việc gán cứng $\tau = 0.5$ tại thời điểm này là hoàn toàn thiế
 ┌─────────────────────────────────────────────────────────────────────────────┐
 │ 2. TẬP VALIDATION (2,000 mẫu tiếp theo: UDI 6,001 -> 8,000)                 │
 │    - Đưa dữ liệu qua Static FIS để sinh chuỗi Anomaly Scores A(x).          │
-│    - Quét ngưỡng ứng viên τ ∈ [0.01, 0.99].                                 │
+│    - Quét một tập các ngưỡng ứng viên trên Validation và lựa chọn threshold theo tiêu chí đánh giá được xác định trước.                                 │
 │    - Đánh giá Precision, Recall, F1-score, PR-AUC.                          │
 │    - Lựa chọn ngưỡng tối ưu τ* (ví dụ tối đa hóa F1 hoặc F2-score).         │
 │    => ĐÓNG BĂNG NGƯỠNG TỐI ƯU τ*.                                           │
@@ -208,7 +208,7 @@ Việc gán cứng $\tau = 0.5$ tại thời điểm này là hoàn toàn thiế
 ```
 
 > [!NOTE]
-> Giao thức này bảo đảm tính khách quan tuyệt đối (zero data-snooping), bảo vệ nghiên cứu trước mọi nghi ngại về rò rỉ dữ liệu kiểm thử.
+> Giao thức này giúp hạn chế data leakage và data-snooping bằng cách tách biệt quá trình xây dựng, hiệu chỉnh và đánh giá hệ thống, bảo vệ nghiên cứu trước mọi nghi ngại về rò rỉ dữ liệu kiểm thử.
 
 ---
 
@@ -241,6 +241,43 @@ Việc xuất ra chỉ số liên tục $A(\mathbf{x}) \in [0, 1]$ thay vì nhã
 ## 10. Kế hoạch chuyển tiếp sang Phase 2.2
 
 Sau khi thống nhất trọn vẹn kiến trúc mục tiêu tại Phase 2.1, bước tiếp theo sẽ là **Phase 2.2 — Thiết kế không gian mờ hóa và hàm thuộc tính (Fuzzification & Membership Functions)**:
-1. Trích xuất thống kê mô tả (Min, Max, Med, Q1, Q3, $3\sigma$) trên 6.000 mẫu tập Train.
+1. Trích xuất thống kê mô tả (Min, Max, Med, Q1, Q3, các percentile phù hợp và độ lệch chuẩn) trên 6.000 mẫu tập Train.
 2. Xác định số lượng tập mờ cho từng biến đầu vào (ví dụ: `LOW`, `NORMAL`, `HIGH` hoặc `LOW`, `MEDIUM`, `HIGH`).
 3. Lựa chọn dạng hình học của hàm thuộc tính (Tam giác - Triangular, Hình thang - Trapezoidal, hoặc Gaussian) để bảo đảm vừa phản ánh đúng vật lý, vừa tối ưu tốc độ tính toán cho môi trường stream.
+
+---
+
+## 11. Phạm vi của Static Fuzzy Baseline
+
+Static Fuzzy System được sử dụng làm hệ cơ sở (baseline) để đánh giá năng lực phát hiện bất thường thuần túy dựa trên suy luận mờ (fuzzy reasoning) trước khi bổ sung bất kỳ cơ chế thích nghi hay tự tiến hóa nào.
+
+Trong giai đoạn này:
+- **Membership functions**, **fuzzy rule base** và các **tham số suy luận** được giữ cố định hoàn toàn sau khi được xây dựng từ tập Train (6.000 mẫu đầu).
+- Toàn bộ cơ chế cập nhật tri thức trực tuyến theo stream, mở rộng/thu hẹp tập mờ và thích nghi với concept drift **chưa được triển khai**.
+
+Việc xác định ranh giới phạm vi này đặc biệt quan trọng trong phương pháp luận thực nghiệm khoa học, giúp thiết lập một đường baseline đối chứng tường minh:
+
+```text
+       STATIC FUZZY BASELINE                          EVOLVING FUZZY SYSTEM
+      (Triển khai ở Phase 2)                        (Triển khai ở Phase 4 & 5)
+
+         Initial Knowledge                             Initial Knowledge
+          (from Train Set)                              (from Train Set)
+                 │                                             │
+          Fixed Knowledge                                      ▼
+                 │                                        Data Stream
+                 ▼                                             │
+            Test Stream                                  Drift Detected
+                 │                                      (ADWIN / CUSUM)
+                 ▼                                             │
+        Baseline Performance                                   ▼
+        (suy giảm khi drift)                            Update Knowledge
+                                                   (adapt MFs / evolve rules)
+                                                               │
+                                                               ▼
+                                                      Evolved Performance
+                                                     (phục hồi sau drift)
+```
+
+Sự hiện diện của Static Fuzzy Baseline bảo đảm rằng trong các thực nghiệm đối đầu ở Phase 4 và 5, mọi sự vượt trội về hiệu năng phát hiện (Precision, Recall, F1, PR-AUC) của Evolving Fuzzy System sẽ được đo lường và chứng minh một cách khách quan so với một hệ mờ tĩnh có cùng điểm xuất phát tri thức ban đầu.
+
