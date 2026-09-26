@@ -25,6 +25,8 @@ notebooks/09 …               Phase 9+ (import src/)
 docs/phase-XX-*.md           báo cáo từng phase
 results/*.csv, figures/*.png kết quả và hình của Phase 9+
 scripts/reproduce_core.py    tái lập bảng E1–E5b trong ~10 giây
+app.py                       dashboard Streamlit 5 màn hình (Phase 14)
+docs/final-report.md         BÁO CÁO TỔNG KẾT
 ```
 
 ## Cài đặt và chạy
@@ -33,6 +35,7 @@ scripts/reproduce_core.py    tái lập bảng E1–E5b trong ~10 giây
 pip install -r requirements.txt
 python scripts/reproduce_core.py      # kiểm tra nhanh: phải in "ALL FROZEN RESULTS REPRODUCED"
 jupyter notebook notebooks/           # chạy notebook theo thứ tự số
+streamlit run app.py                  # dashboard demo
 ```
 
 **Lưu ý Windows:** trên máy tác giả, extension Rust của `river` bị Windows Smart App Control chặn trong môi trường Anaconda base (Python 3.13). Phase 5 trở đi dùng conda env riêng:
@@ -42,7 +45,7 @@ conda create -n drift_env python=3.11 && conda activate drift_env
 pip install -r requirements.txt && python -m ipykernel install --user --name drift_env --display-name "Python (drift_env)"
 ```
 
-Notebook 09 trở đi đã được thực thi lại trên Linux (Python 3.10, river 0.22) và cho kết quả trùng khớp với Phase 5–8 (river 0.26.1).
+Notebook 09 trở đi được thực thi trên Linux (Python 3.10, river 0.22). `reproduce_core.py` cũng đã được kiểm tra với river 0.26.1; cả hai cho kết quả trùng khớp với Phase 5–8.
 
 ## Kết quả chính (toàn luồng N = 2000, 39 ca lỗi, τ = 0.67)
 
@@ -56,6 +59,8 @@ Notebook 09 trở đi đã được thực thi lại trên Linux (Python 3.10, r
 | E5b | Gradual | Evolving | 14 | 61 | 25 | 0.187 | 0.359 | 0.246 | 0.031 |
 
 Ở cửa sổ sau thích nghi, hệ Evolving trên luồng Sudden **khớp chính xác** hệ gốc trên luồng không drift (TP 8 / FP 6 / FN 7). Xem `docs/phase-10…` §5.1.
+
+**Giới hạn chính** (chi tiết trong `docs/final-report.md` §5): kênh cần thích nghi (RPM/Torque) được chọn trước, và quy tắc tự chọn biến đơn giản thất bại (Phase 11); báo động nhầm có thể làm giảm Recall (Phase 9); thêm/bớt luật online không thay đổi gì trên Test (Phase 12).
 
 ## Tài liệu theo phase
 
@@ -71,5 +76,10 @@ Notebook 09 trở đi đã được thực thi lại trên Linux (Python 3.10, r
 | 8 | Tái tạo độc lập, audit, trực quan hóa |
 | 9 | Module hóa `src/`, ADWIN live, **E2**, stress test báo động nhầm |
 | 10 | Latency, adaptation time, phân tích theo cửa sổ |
+| 11 | *Bonus:* E6 noise, E7 missing, chọn biến tự động (kết quả âm tính) |
+| 12 | *Bonus:* thêm/bớt luật với nhãn phản hồi trễ (kết quả trung tính) |
+| 13 | *Bonus:* multistream + chuyển giao tri thức giữa các máy |
+| 14 | *Bonus:* dashboard Streamlit + explainability |
+| — | **`docs/final-report.md` — báo cáo tổng kết** |
 
 Dữ liệu: S. Matzka, *AI4I 2020 Predictive Maintenance Dataset*, UCI Machine Learning Repository, https://doi.org/10.24432/C5HS5C
