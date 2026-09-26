@@ -32,7 +32,7 @@ Số seed (trên 5) mà Evolving tốt hơn Static:
 
 **Quan sát:**
 - **ADWIN bền với nhiễu trong phạm vi đã thử:** trên luồng Control, 0 cảnh báo ở mọi mức nhiễu và mọi seed. Trên luồng drift, không có cảnh báo nào trước khi drift bắt đầu. Riêng Gradual, độ trễ phát hiện tăng theo nhiễu (t ≈ 1253 → 1311).
-- **Mức giảm FPR giữ ổn định** (khoảng một nửa) ở mọi mức nhiễu: 20/20 cấu hình × seed đều cho Evolving FPR thấp hơn.
+- **Mức giảm FPR giữ ổn định** (khoảng một nửa) ở mọi mức nhiễu: toàn bộ 40/40 lần chạy (8 cấu hình drift × 5 seed) đều cho Evolving FPR thấp hơn.
 - **Lợi thế F1 giảm dần khi nhiễu tăng.** Ở σ = 0.30, Gradual Evolving có F1 trung bình *thấp hơn* Static (0.222 so với 0.227), chỉ thắng 3/5 seed. Nguyên nhân: nhiễu làm Recall của Evolving giảm nhanh hơn, trong khi Static giữ Recall cao nhờ mặt bằng điểm bị drift đẩy lên.
 - Trên Control, nhiễu làm cả hai hệ giảm như nhau (F1 0.302 → 0.242 ở σ = 0.30). Đây là suy giảm của bản thân FIS, không liên quan tới cơ chế evolving.
 

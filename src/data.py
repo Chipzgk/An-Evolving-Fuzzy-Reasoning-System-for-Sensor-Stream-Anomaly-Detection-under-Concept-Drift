@@ -153,3 +153,16 @@ def impute_locf(stream: pd.DataFrame, fallback: dict[str, float]) -> pd.DataFram
 def train_sensor_median(df: pd.DataFrame) -> dict[str, float]:
     train, _, _ = sequential_split(df)
     return {k: float(train[c].median()) for k, c in SENSOR_COLUMNS.items()}
+
+
+def scenarios_from_base(base: pd.DataFrame) -> dict[str, pd.DataFrame]:
+    """Control / Sudden / Gradual built from any 2000-sample base stream."""
+    base = base.copy().reset_index(drop=True)
+    return {"Control": base.copy(), "Sudden Drift": inject_sudden(base),
+            "Gradual Drift": inject_gradual(base)}
+
+
+def make_validation_scenarios(df: pd.DataFrame) -> dict[str, pd.DataFrame]:
+    """Same drift protocol on the Validation partition (UDI 6001-8000).
+    Used only for hyper-parameter selection of bonus mechanisms."""
+    return scenarios_from_base(df.iloc[TRAIN_END:VAL_END])

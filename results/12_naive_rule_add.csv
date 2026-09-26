@@ -1,0 +1,4 @@
+Scenario,rules added,rules at end,TP,FP,FN,F1,FPR
+Control,14,26,17,122,22,0.191,0.0622
+Sudden Drift,14,26,20,182,19,0.166,0.0928
+Gradual Drift,12,24,22,213,17,0.1606,0.1086
