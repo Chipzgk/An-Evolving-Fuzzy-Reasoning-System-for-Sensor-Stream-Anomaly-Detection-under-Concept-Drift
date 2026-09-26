@@ -33,19 +33,28 @@ def shift_mf(mf, shift, universe):
     return np.interp(universe - shift, universe, mf, left=0.0, right=0.0)
 
 
-def estimate_shifts(buffer_df: pd.DataFrame, grid_mfs: dict, variables) -> dict:
+def estimate_shifts(buffer_df: pd.DataFrame, grid_mfs: dict, variables,
+                    ref_means: dict | None = None) -> dict:
+    """delta_v = mean(buffer_v) - reference_v.
+
+    reference_v = centroid of the current MEDIUM MF (Phase 7, "design")
+    or, if ref_means is given, the mean of an unlabeled warm-up window
+    ("warmup" reference, Phase 11 variant)."""
     shifts = {}
     for var in variables:
         mean = float(buffer_df[SENSOR_COLUMNS[var]].mean())
-        shifts[var] = mean - mf_centroid(UNIVERSES[var], grid_mfs[var]["medium"])
+        ref = (ref_means[var] if ref_means is not None
+               else mf_centroid(UNIVERSES[var], grid_mfs[var]["medium"]))
+        shifts[var] = mean - ref
     return shifts
 
 
 def select_variables_auto(buffer_df: pd.DataFrame, grid_mfs: dict,
-                          ref_std: dict, k: float = 0.5) -> tuple[list, dict]:
+                          ref_std: dict, k: float = 0.5,
+                          ref_means: dict | None = None) -> tuple[list, dict]:
     """Label-free, oracle-free variable selection: adapt variable v only if
-    |mean(buffer_v) - centroid(MEDIUM_v)| > k * train_std_v."""
-    all_shifts = estimate_shifts(buffer_df, grid_mfs, VARIABLES)
+    |mean(buffer_v) - reference_v| > k * train_std_v."""
+    all_shifts = estimate_shifts(buffer_df, grid_mfs, VARIABLES, ref_means)
     z = {v: abs(s) / ref_std[v] for v, s in all_shifts.items()}
     return [v for v in VARIABLES if z[v] > k], z
 
@@ -70,7 +79,8 @@ class PrequentialRunner:
                  adapt_vars=ORACLE_ADAPTIVE_VARS, ref_std: dict | None = None,
                  auto_k: float = 0.5, max_adaptations: int = 1,
                  detector=None, fis: FuzzySystem | None = None,
-                 measure_latency: bool = False):
+                 measure_latency: bool = False, reference: str = "design",
+                 warmup: int = 500):
         self.evolve = evolve
         self.tau = tau
         self.window = window
@@ -83,6 +93,10 @@ class PrequentialRunner:
         self.measure_latency = measure_latency
         self.grid_mfs = STATIC_GRID_MFS
         self.events: list[dict] = []
+        assert reference in ("design", "warmup")
+        self.reference = reference
+        self.warmup = warmup
+        self.ref_means: dict | None = None
 
     def run(self, stream: pd.DataFrame) -> pd.DataFrame:
         records = []
@@ -90,8 +104,12 @@ class PrequentialRunner:
         buffering = False
         n_adapt = 0
         labels = stream["Machine failure"].to_numpy()
+        warm_rows: list = []
         for t, (_, row) in enumerate(stream.iterrows()):
             values = sample_values(row)
+            if self.reference == "warmup" and len(warm_rows) < self.warmup:
+                warm_rows.append(values)  # unlabeled commissioning window
+                self.ref_means = pd.DataFrame(warm_rows).mean().to_dict()
             t0 = time.perf_counter() if self.measure_latency else 0.0
             score = self.fis.score_values(values)          # 1. test
             lat = (time.perf_counter() - t0) if self.measure_latency else np.nan
@@ -104,12 +122,15 @@ class PrequentialRunner:
                 buffer_rows.append(row)
                 if len(buffer_rows) == self.window:
                     buf = pd.DataFrame(buffer_rows)
+                    refm = self.ref_means if self.reference == "warmup" else None
                     if self.adapt_vars == "auto":
                         variables, z = select_variables_auto(
-                            buf, self.grid_mfs, self.ref_std, self.auto_k)
+                            buf, self.grid_mfs, self.ref_std, self.auto_k, refm)
                     else:
                         variables, z = list(self.adapt_vars), None
-                    shifts = estimate_shifts(buf, self.grid_mfs, variables)
+                    shifts = estimate_shifts(buf, self.grid_mfs, variables, refm)
+                    if refm is not None:  # the buffer becomes the new normal
+                        self.ref_means = {**refm, **{v: refm[v] + shifts[v] for v in variables}}
                     self.grid_mfs = adapt_mfs(self.grid_mfs, shifts)
                     self.fis = FuzzySystem(self.grid_mfs, self.fis.rules, self.fis.weights)
                     n_adapt += 1
@@ -124,8 +145,15 @@ class PrequentialRunner:
                 buffering = True
                 buffer_rows = []
                 self.events.append({"t": t, "event": "buffer_start"})
+            self._feedback(t, values, score, pred, int(labels[t]))  # 5. (bonus) label feedback
             records.append({"t": t, "UDI": int(row["UDI"]), "score": score,
                             "pred": pred, "label": int(labels[t]),
                             "drift": drift, "adapted_now": adapted_now,
-                            "n_adaptations": n_adapt, "latency_s": lat})
+                            "n_adaptations": n_adapt, "n_rules": self.fis.n_rules,
+                            "latency_s": lat})
         return pd.DataFrame(records)
+
+    def _feedback(self, t, values, score, pred, label):
+        """Hook for label-feedback extensions (rule evolution, Phase 12).
+        The base runner never uses labels."""
+        return None

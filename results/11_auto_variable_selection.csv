@@ -1,0 +1,25 @@
+reference,selection,Scenario,adapted_vars,z,shifts,TP,FP,FN,F1,FPR
+design,oracle,Control,—,,,13,34,26,0.3023,0.0173
+design,oracle,Sudden Drift,"rpm,torque",,"{'rpm': -156.21, 'torque': 7.3}",15,56,24,0.2727,0.0286
+design,oracle,Gradual Drift,"rpm,torque",,"{'rpm': -161.96, 'torque': 8.05}",14,61,25,0.2456,0.0311
+design,auto k=0.3,Control,—,,,13,34,26,0.3023,0.0173
+design,auto k=0.3,Sudden Drift,"air_temp,process_temp,rpm,torque","{'air_temp': 0.95, 'process_temp': 0.5, 'rpm': 0.85, 'torque': 0.73, 'tool_wear': 0.17}","{'air_temp': -2.17, 'process_temp': -0.84, 'rpm': -156.21, 'torque': 7.3}",15,60,24,0.2632,0.0306
+design,auto k=0.3,Gradual Drift,"air_temp,process_temp,rpm,torque","{'air_temp': 0.96, 'process_temp': 0.59, 'rpm': 0.89, 'torque': 0.81, 'tool_wear': 0.14}","{'air_temp': -2.19, 'process_temp': -0.99, 'rpm': -161.96, 'torque': 8.05}",14,68,25,0.2314,0.0347
+design,auto k=0.5,Control,—,,,13,34,26,0.3023,0.0173
+design,auto k=0.5,Sudden Drift,"air_temp,process_temp,rpm,torque","{'air_temp': 0.95, 'process_temp': 0.5, 'rpm': 0.85, 'torque': 0.73, 'tool_wear': 0.17}","{'air_temp': -2.17, 'process_temp': -0.84, 'rpm': -156.21, 'torque': 7.3}",15,60,24,0.2632,0.0306
+design,auto k=0.5,Gradual Drift,"air_temp,process_temp,rpm,torque","{'air_temp': 0.96, 'process_temp': 0.59, 'rpm': 0.89, 'torque': 0.81, 'tool_wear': 0.14}","{'air_temp': -2.19, 'process_temp': -0.99, 'rpm': -161.96, 'torque': 8.05}",14,68,25,0.2314,0.0347
+design,auto k=1.0,Control,—,,,13,34,26,0.3023,0.0173
+design,auto k=1.0,Sudden Drift,,"{'air_temp': 0.95, 'process_temp': 0.5, 'rpm': 0.85, 'torque': 0.73, 'tool_wear': 0.17}",{},18,114,21,0.2105,0.0581
+design,auto k=1.0,Gradual Drift,,"{'air_temp': 0.96, 'process_temp': 0.59, 'rpm': 0.89, 'torque': 0.81, 'tool_wear': 0.14}",{},18,113,21,0.2118,0.0576
+warmup,oracle,Control,—,,,13,34,26,0.3023,0.0173
+warmup,oracle,Sudden Drift,"rpm,torque",,"{'rpm': -139.94, 'torque': 7.37}",15,58,24,0.2679,0.0296
+warmup,oracle,Gradual Drift,"rpm,torque",,"{'rpm': -145.69, 'torque': 8.12}",15,63,24,0.2564,0.0321
+warmup,auto k=0.3,Control,—,,,13,34,26,0.3023,0.0173
+warmup,auto k=0.3,Sudden Drift,"air_temp,process_temp,rpm,torque","{'air_temp': 0.54, 'process_temp': 1.04, 'rpm': 0.77, 'torque': 0.74, 'tool_wear': 0.13}","{'air_temp': -1.22, 'process_temp': -1.73, 'rpm': -139.94, 'torque': 7.37}",17,82,22,0.2464,0.0418
+warmup,auto k=0.3,Gradual Drift,"air_temp,process_temp,rpm,torque","{'air_temp': 0.55, 'process_temp': 1.13, 'rpm': 0.8, 'torque': 0.81, 'tool_wear': 0.09}","{'air_temp': -1.25, 'process_temp': -1.88, 'rpm': -145.69, 'torque': 8.12}",17,86,22,0.2394,0.0439
+warmup,auto k=0.5,Control,—,,,13,34,26,0.3023,0.0173
+warmup,auto k=0.5,Sudden Drift,"air_temp,process_temp,rpm,torque","{'air_temp': 0.54, 'process_temp': 1.04, 'rpm': 0.77, 'torque': 0.74, 'tool_wear': 0.13}","{'air_temp': -1.22, 'process_temp': -1.73, 'rpm': -139.94, 'torque': 7.37}",17,82,22,0.2464,0.0418
+warmup,auto k=0.5,Gradual Drift,"air_temp,process_temp,rpm,torque","{'air_temp': 0.55, 'process_temp': 1.13, 'rpm': 0.8, 'torque': 0.81, 'tool_wear': 0.09}","{'air_temp': -1.25, 'process_temp': -1.88, 'rpm': -145.69, 'torque': 8.12}",17,86,22,0.2394,0.0439
+warmup,auto k=1.0,Control,—,,,13,34,26,0.3023,0.0173
+warmup,auto k=1.0,Sudden Drift,process_temp,"{'air_temp': 0.54, 'process_temp': 1.04, 'rpm': 0.77, 'torque': 0.74, 'tool_wear': 0.13}",{'process_temp': -1.73},20,205,19,0.1515,0.1045
+warmup,auto k=1.0,Gradual Drift,process_temp,"{'air_temp': 0.55, 'process_temp': 1.13, 'rpm': 0.8, 'torque': 0.81, 'tool_wear': 0.09}",{'process_temp': -1.88},20,210,19,0.1487,0.1071

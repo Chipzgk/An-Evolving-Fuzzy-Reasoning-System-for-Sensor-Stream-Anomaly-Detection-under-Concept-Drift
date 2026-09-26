@@ -1,0 +1,17 @@
+reference,selection,false_alarm_t,shifts,TP,FP,FN,F1
+design,oracle,300,"{'rpm': -32.56, 'torque': 1.05}",8,27,31,0.2162
+design,oracle,700,"{'rpm': -33.29, 'torque': 0.35}",8,29,31,0.2105
+design,oracle,1000,"{'rpm': 2.09, 'torque': -0.97}",13,36,26,0.2955
+design,oracle,1400,"{'rpm': -21.0, 'torque': 0.69}",10,32,29,0.2469
+design,auto,300,{'air_temp': -1.63},13,34,26,0.3023
+design,auto,700,"{'air_temp': -2.84, 'process_temp': -1.0}",14,41,25,0.2979
+design,auto,1000,"{'air_temp': -2.85, 'process_temp': -1.31}",14,49,25,0.2745
+design,auto,1400,{'air_temp': -1.44},13,34,26,0.3023
+warmup,oracle,300,"{'rpm': -16.29, 'torque': 1.12}",10,29,29,0.2564
+warmup,oracle,700,"{'rpm': -17.02, 'torque': 0.42}",10,31,29,0.25
+warmup,oracle,1000,"{'rpm': 18.36, 'torque': -0.9}",14,40,25,0.3011
+warmup,oracle,1400,"{'rpm': -4.73, 'torque': 0.76}",13,34,26,0.3023
+warmup,auto,300,{'process_temp': -0.84},13,38,26,0.2889
+warmup,auto,700,"{'air_temp': -1.89, 'process_temp': -1.89}",15,57,24,0.2703
+warmup,auto,1000,"{'air_temp': -1.9, 'process_temp': -2.2}",15,64,24,0.2542
+warmup,auto,1400,{},13,34,26,0.3023
