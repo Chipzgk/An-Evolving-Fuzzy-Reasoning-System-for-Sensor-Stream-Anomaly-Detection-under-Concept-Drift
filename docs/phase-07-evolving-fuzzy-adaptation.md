@@ -138,6 +138,9 @@ Toàn bộ 20 bước thực nghiệm được thiết kế và thực thi tuầ
     * $\Delta_{\text{RPM}} = 1376.0408 - 1538.0000 = -161.9592\text{ rpm}$.
     * $\Delta_{\text{Torque}} = 47.9930 - 39.9400 = +8.0530\text{ Nm}$.
 
+> [!WARNING]
+> **Đính chính (Phase 9):** các giá trị trung gian ở mục 3.3 bị ghi sai. Tâm MF MEDIUM thực tế là $C_{RPM}=1551.3342$ và $C_{Torque}=40.0000$. Trung bình buffer Sudden = 1395.12 rpm / 47.3015 Nm; Gradual = 1389.375 rpm / 48.053 Nm. Các độ dịch cuối cùng ($-156.2142/+7.3015$ và $-161.9592/+8.0530$) là **đúng** và không ảnh hưởng kết quả. Xem `docs/phase-09-modular-reproduction-and-e2.md` §7.
+
 ### 3.4. Phase 7.5, 7.6 & 7.11 — Hiệu Chỉnh Hàm Tịnh Tiến và Kiểm Chứng Hình Học MFs
 - **Cell 7.5 & 7.6:** Phát hiện và sửa lỗi đảo chiều tịnh tiến trong công thức nội suy. Trục nội suy chuẩn xác:
   ```python
