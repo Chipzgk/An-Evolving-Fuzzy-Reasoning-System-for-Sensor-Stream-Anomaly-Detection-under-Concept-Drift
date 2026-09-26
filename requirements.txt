@@ -1,6 +1,9 @@
-pandas
-numpy
-matplotlib
-seaborn
+# Core (Phases 1-10)
+numpy>=1.26
+pandas>=2.0
+scipy>=1.10
+matplotlib>=3.7
+seaborn>=0.12
+scikit-fuzzy>=0.4
+river>=0.21        # ADWIN drift detector (Phase 5+)
 jupyter
-scikit-fuzzy
