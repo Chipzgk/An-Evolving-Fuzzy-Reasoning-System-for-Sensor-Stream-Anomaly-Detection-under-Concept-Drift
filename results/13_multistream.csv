@@ -1,0 +1,28 @@
+scenario,mode,machine,onset,detected,first adaptation,onset→first adapt,events,FP after onset,TP after onset,F1,FPR,KB source
+"same drift, staggered",independent,A,800,927,1127,327,adapted@1127,38,14,0.2857,0.0291,A
+"same drift, staggered",independent,B,1100,1183,1383,283,adapted@1383,56,7,0.1778,0.0399,A
+"same drift, staggered",independent,C,1400,1503,1703,303,adapted@1703,113,9,0.3597,0.0796,A
+"same drift, staggered",transfer,A,800,927,1127,327,adapted@1127,38,14,0.2857,0.0291,A
+"same drift, staggered",transfer,B,1100,1183,1183,83,"transferred@1183, refined@1383",46,7,0.192,0.0348,A
+"same drift, staggered",transfer,C,1400,1503,1503,103,"transferred@1503, refined@1703",59,8,0.4167,0.0504,A
+"same drift, staggered",transfer_only,A,800,927,1127,327,adapted@1127,38,14,0.2857,0.0291,A
+"same drift, staggered",transfer_only,B,1100,1183,1183,83,transferred@1183,65,10,0.2041,0.0445,A
+"same drift, staggered",transfer_only,C,1400,1503,1503,103,transferred@1503,68,9,0.4099,0.0553,A
+"same drift, close onsets",independent,A,1000,1183,1383,383,adapted@1383,34,12,0.2727,0.0286,A
+"same drift, close onsets",independent,B,1100,1183,1383,283,adapted@1383,56,7,0.1778,0.0399,A
+"same drift, close onsets",independent,C,1200,1279,1479,279,adapted@1479,123,11,0.3616,0.0785,A
+"same drift, close onsets",transfer,A,1000,1183,1383,383,adapted@1383,34,12,0.2727,0.0286,A
+"same drift, close onsets",transfer,B,1100,1183,1383,283,adapted@1383,56,7,0.1778,0.0399,A
+"same drift, close onsets",transfer,C,1200,1279,1479,279,adapted@1479,123,11,0.3616,0.0785,A
+"same drift, close onsets",transfer_only,A,1000,1183,1383,383,adapted@1383,34,12,0.2727,0.0286,A
+"same drift, close onsets",transfer_only,B,1100,1183,1383,283,adapted@1383,56,7,0.1778,0.0399,A
+"same drift, close onsets",transfer_only,C,1200,1279,1479,279,adapted@1479,123,11,0.3616,0.0785,A
+C torque-only (mismatch),independent,A,800,927,1127,327,adapted@1127,38,14,0.2857,0.0291,A
+C torque-only (mismatch),independent,B,1100,1183,1383,283,adapted@1383,56,7,0.1778,0.0399,A
+C torque-only (mismatch),independent,C,1400,1631,1831,431,adapted@1831,72,8,0.4,0.0574,A
+C torque-only (mismatch),transfer,A,800,927,1127,327,adapted@1127,38,14,0.2857,0.0291,A
+C torque-only (mismatch),transfer,B,1100,1183,1183,83,"transferred@1183, refined@1383",46,7,0.192,0.0348,A
+C torque-only (mismatch),transfer,C,1400,1631,1631,231,"transferred@1631, refined@1831",40,7,0.4384,0.0401,A
+C torque-only (mismatch),transfer_only,A,800,927,1127,327,adapted@1127,38,14,0.2857,0.0291,A
+C torque-only (mismatch),transfer_only,B,1100,1183,1183,83,transferred@1183,65,10,0.2041,0.0445,A
+C torque-only (mismatch),transfer_only,C,1400,1631,1631,231,transferred@1631,38,7,0.4414,0.039,A
