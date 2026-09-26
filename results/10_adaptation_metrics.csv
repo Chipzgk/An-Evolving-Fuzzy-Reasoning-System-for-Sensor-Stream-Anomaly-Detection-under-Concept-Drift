@@ -1,0 +1,14 @@
+,0,1
+Scenario,Sudden Drift,Gradual Drift
+drift onset,1000,800
+drift fully applied,1000,1200
+ADWIN detection t,1183,1247
+detection delay (from full drift),183,47
+adaptation completed t,1383,1447
+onset→adapted (samples),383,647
+detection→adapted (samples),200,200
+ΔRPM,-156.214,-161.959
+ΔTorque,7.3015,8.053
+post mean score Static,0.4628,0.4647
+post mean score Evolving,0.326,0.3157
+post mean score Control (ref),0.3243,0.3229

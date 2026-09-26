@@ -1,0 +1,7 @@
+Scenario,Model,Rules (end),Input MFs,Adaptations,Adapted variables
+Control,Static,12,15,0,—
+Control,Evolving,12,15,0,—
+Sudden Drift,Static,12,15,0,—
+Sudden Drift,Evolving,12,15,1,"rpm, torque"
+Gradual Drift,Static,12,15,0,—
+Gradual Drift,Evolving,12,15,1,"rpm, torque"
